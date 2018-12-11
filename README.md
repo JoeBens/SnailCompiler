@@ -7,7 +7,7 @@ A basic Compiler of a custom programming language called Snail
 - Program always starts with "Snl_Start" and ends with "Snl_Close"
 - A comment can only be contained in one line, and must start with "%.."
 - An instruction always ends with "%."
-- Regular expressions corresponding to variables types of this langage are : 
+- Regular expressions corresponding to variables types of this language are : 
 
 Type | Description | RegEx 
 -----| ------------| ---------

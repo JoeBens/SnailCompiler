@@ -5,11 +5,14 @@
  */
 package snailcompiler;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
 /**
@@ -19,11 +22,14 @@ import javax.swing.JFileChooser;
 public class MainPage extends javax.swing.JFrame {
         JFileChooser fc;
         File test;
+        String code;
+        public ArrayList<String> lignes = new ArrayList();
     /**
      * Creates new form MainPage
      */
     public MainPage() {
         fc = new JFileChooser();
+        this.setSize(1131, 822);
         this.setResizable(false);
         initComponents();
     }
@@ -46,29 +52,63 @@ public class MainPage extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         jButton5.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setSize(new java.awt.Dimension(1131, 822));
+        getContentPane().setLayout(null);
+
+        jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
 
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
         jTextArea1.setRows(5);
+        jTextArea1.setOpaque(false);
         jScrollPane1.setViewportView(jTextArea1);
         jTextArea1.setEditable(false);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 550, 580));
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(40, 20, 590, 580);
 
-        jButton8.setText("Analyse Syntaxique");
+        jPanel1.setOpaque(false);
+
+        jButton8.setBackground(new java.awt.Color(255, 255, 255));
+        jButton8.setFont(new java.awt.Font("Open Sans", 1, 24)); // NOI18N
+        jButton8.setText("SYNTAXIQUE");
+        jButton8.setBorderPainted(false);
+        jButton8.setFocusPainted(false);
+        jButton8.setFocusable(false);
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Analyse Sémantique");
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("Open Sans", 1, 24)); // NOI18N
+        jButton3.setText("SÉMANTIQUE");
+        jButton3.setBorderPainted(false);
+        jButton3.setFocusPainted(false);
+        jButton3.setFocusable(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
-        jButton7.setText("Analyse Lexicale");
+        jButton7.setBackground(new java.awt.Color(255, 255, 255));
+        jButton7.setFont(new java.awt.Font("Open Sans", 1, 24)); // NOI18N
+        jButton7.setText("LEXICALE");
+        jButton7.setBorderPainted(false);
+        jButton7.setFocusPainted(false);
+        jButton7.setFocusable(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -80,7 +120,7 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(1039, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,12 +131,20 @@ public class MainPage extends javax.swing.JFrame {
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addContainerGap(295, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 10, -1, -1));
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(630, 10, 1470, 830);
 
+        jPanel2.setOpaque(false);
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setFont(new java.awt.Font("Open Sans", 1, 48)); // NOI18N
         jButton2.setText("Load File");
+        jButton2.setBorderPainted(false);
+        jButton2.setFocusPainted(false);
+        jButton2.setFocusable(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -108,19 +156,24 @@ public class MainPage extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(149, 149, 149)
+                .addGap(148, 148, 148)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(802, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap()
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(669, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 620, -1, -1));
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(180, 620, 1470, 830);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Misc/Untitled-1.jpg"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 1140, 820);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -136,15 +189,39 @@ public class MainPage extends javax.swing.JFrame {
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         test = fc.getSelectedFile();
         try {
-          BufferedReader input = new BufferedReader(new InputStreamReader(
-              new FileInputStream(test)));
-          jTextArea1.read(input, "READING FILE :-)");
+     
+            FileReader fileReader = new FileReader(test);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuffer stringBuffer = new StringBuffer();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuffer.append(line);
+                stringBuffer.append("\n");
+                lignes.add(line);//list of lines
+            }
+            fileReader.close();
+            code=stringBuffer.toString();//the code
         } catch (IOException e) {
         }
       } else {
         System.out.println("Operation is CANCELLED :(");
       }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+    public ArrayList<String> getList(){ //  renvoi les lignes de la liste
+            return lignes;
+        }
+        
+    public String getCode(){ //le code dans 1 sttring
+            return code;
+        }
 
     /**
      * @param args the command line arguments
@@ -176,7 +253,11 @@ public class MainPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainPage().setVisible(true);
+                
+                MainPage xd = new MainPage();
+                xd.setVisible(true);
+                xd.setSize(1101, 842);
+                xd.setLocationRelativeTo(null);
             }
         });
     }
@@ -187,6 +268,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

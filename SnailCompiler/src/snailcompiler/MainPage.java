@@ -24,6 +24,11 @@ public class MainPage extends javax.swing.JFrame {
         File test;
         String code;
         public ArrayList<String> lignes = new ArrayList();
+        Syntaxique syn=new Syntaxique();
+        Semantique sem=new Semantique();
+        
+        Lexical lex =new Lexical();
+        
     /**
      * Creates new form MainPage
      */
@@ -180,6 +185,7 @@ public class MainPage extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
+        jTextArea1.setText(syn.Verificationdeslignes(lignes));
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -210,10 +216,15 @@ public class MainPage extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
+             jTextArea1.setText(lex.verifierLesTokens(this.getCode()));
+        /*else if(phase.getSelectedItem().equals("Syntaxique")) sorti.setText(syn.Verificationdeslignes(lignes));
+        else if(phase.getSelectedItem().equals("Semantique")) sorti.setText(sem.SemantiqueMethod(lignes));*/
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        jTextArea1.setText(sem.SemantiqueMethod(lignes));
+        
     }//GEN-LAST:event_jButton3ActionPerformed
     public ArrayList<String> getList(){ //  renvoi les lignes de la liste
             return lignes;

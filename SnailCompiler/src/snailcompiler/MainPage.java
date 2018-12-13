@@ -5,6 +5,8 @@
  */
 package snailcompiler;
 
+
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +15,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -25,9 +29,8 @@ public class MainPage extends javax.swing.JFrame {
         String code;
         public ArrayList<String> lignes = new ArrayList();
         Syntaxique syn=new Syntaxique();
-        Semantique sem=new Semantique();
-        
-        Lexical lex =new Lexical();
+        Semantique sem;
+        lexical lex =new lexical();
         
     /**
      * Creates new form MainPage
@@ -182,12 +185,14 @@ public class MainPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+                    //SYNTAXIQUE
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-        jTextArea1.setText(syn.Verificationdeslignes(lignes));
+        
+        /*jTextArea1.setText(syn.analyse_syn(code));*/
+        jTextArea1.setText(code);
     }//GEN-LAST:event_jButton8ActionPerformed
-
+                    //LOAD FILE
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
       
@@ -212,18 +217,23 @@ public class MainPage extends javax.swing.JFrame {
       } else {
         System.out.println("Operation is CANCELLED :(");
       }
+      sem=new Semantique(0,this.code);
     }//GEN-LAST:event_jButton2ActionPerformed
-
+                    //LEXICALE
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-             jTextArea1.setText(lex.verifierLesTokens(this.getCode()));
-        /*else if(phase.getSelectedItem().equals("Syntaxique")) sorti.setText(syn.Verificationdeslignes(lignes));
-        else if(phase.getSelectedItem().equals("Semantique")) sorti.setText(sem.SemantiqueMethod(lignes));*/
+             jTextArea1.setText(lex.resultat(code));
     }//GEN-LAST:event_jButton7ActionPerformed
-
+                   //SEMANTIQUE
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        jTextArea1.setText(sem.SemantiqueMethod(lignes));
+        String xd = null;    
+        try {
+                // TODO add your handling code here:
+                xd = sem.analyse_sem();
+            } catch (IOException ex) {
+                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        jTextArea1.setText(xd);
         
     }//GEN-LAST:event_jButton3ActionPerformed
     public ArrayList<String> getList(){ //  renvoi les lignes de la liste

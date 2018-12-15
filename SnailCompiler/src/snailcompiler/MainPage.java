@@ -219,20 +219,16 @@ public class MainPage extends javax.swing.JFrame {
                    //SEMANTIQUE
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
                             Semantique semantique = new Semantique(nbr_erreur,code);
-                            
+                            jTextArea1.setText(this.test());
 				String resultat = null;
 				try {
 					resultat = (String)semantique.analyse_sem();
+                                       
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				jTextArea1.setText(resultat);
-                               
-                                
-                                   /*jTextArea1.append(this.readFile()); */
-        
-                               
                                 
                                 
         
@@ -240,11 +236,12 @@ public class MainPage extends javax.swing.JFrame {
     public ArrayList<String> getList(){ //  renvoi les lignes de la liste
             return lignes;
         }
-       /* public String readFile()
-	{StringBuffer stringBuffer = null ;
+        
+    public String test(){
+        StringBuffer stringBuffer = null ;
 		try {
 			
-			FileReader fileReader = new FileReader("Test.java");
+			FileReader fileReader = new FileReader("C:\\Users\\Joe\\Desktop\\Test.java");
 			 stringBuffer = new StringBuffer();
 			int numCharsRead;
 			char[] charArray = new char[1024];
@@ -258,7 +255,8 @@ public class MainPage extends javax.swing.JFrame {
 			e.printStackTrace();
 		}
 		return stringBuffer.toString();
-		}*/
+    }
+    
     public String getCode(){ //le code dans 1 sttring
             return code;
         }

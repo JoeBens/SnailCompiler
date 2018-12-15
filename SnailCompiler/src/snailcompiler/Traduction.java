@@ -11,10 +11,11 @@ import java.io.PrintWriter;
 
 public class Traduction {
 
-	File fichier = new File("C:\\Users\\User\\Test.java") ; 
+	File fichier = new File("C:\\Users\\Joe\\Desktop\\Test.java") ; 
 	private String code;
 	private static String consoleOutput = "";
-    private String sourceCode;
+        private String sourceCode;
+        public String xd;
 	
 	
 	public Traduction (String code) {
@@ -22,12 +23,10 @@ public class Traduction {
 		
 	}
 	public void compile() throws IOException {
-	
-	
 		String resultat = " ";
 		
 		try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fichier)) ){
-		String[] line = devide();
+		String[] line = divide();
 		for(int i = 0 ; i<line.length; i++) {
 		String[] word = line[i].split("\\s+");
 		int j = 0;
@@ -175,6 +174,7 @@ public class Traduction {
 				break;	
 				
 			}
+                        
 		}
 		
 		}catch(IOException e) {
@@ -191,10 +191,35 @@ public class Traduction {
 		     System.out.println(s);*/
 		     
 		consoleOutput = "";
-        compileAndRun();
+        /*compileAndRun();*/
 				
 	}
-	
+        public String getCode(){
+            StringBuffer stringBuffer = null ;
+		try {
+			
+			FileReader fileReader = new FileReader(fichier);
+			 stringBuffer = new StringBuffer();
+			int numCharsRead;
+			char[] charArray = new char[1024];
+			while ((numCharsRead = fileReader.read(charArray)) > 0) {
+				stringBuffer.append(charArray, 0, numCharsRead);
+				
+			}
+			fileReader.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return stringBuffer.toString();
+            
+   
+        }      
+        
+        
+        
+        
+        
 	
 	public  boolean ident(String ident)
 	{
@@ -286,7 +311,7 @@ public class Traduction {
 	}
 
 	
-	public String[] devide()
+	public String[] divide()
 	{	
 		
 		String[] line = code.split("(\\r\\n)+");
@@ -294,16 +319,7 @@ public class Traduction {
 		
 	}
 
-
-
-
-
-
-
-
-
-
-	 public String getConsoleOutput()
+	 /*public String getConsoleOutput()
 	    {
 	        consoleOutput = "";
 	        compileAndRun();
@@ -312,13 +328,13 @@ public class Traduction {
 
 	    private void compileAndRun()
 	    {
-	        String FILENAME = "Test.java";
+	        String FILENAME = "C:\\Users\\Joe\\Desktop\\Test";
 	        try
 	        {
 	            
-	            runProcess("javac Test.java");
+	            runProcess("C:\\Users\\Joe\\Desktop\\Test.java");
 	            consoleOutput = readStream(runProcess("java "+FILENAME));
-	            
+
 	            
 	        } catch (Exception e)
 	        {
@@ -343,6 +359,11 @@ public class Traduction {
 	        System.err.println(readStream(pro.getErrorStream()));
 	        return pro.getInputStream();
 	    }
+*/
+
+
+
+
 
 
 

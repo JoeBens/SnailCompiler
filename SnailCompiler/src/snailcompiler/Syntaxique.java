@@ -38,45 +38,45 @@ public class Syntaxique {
 			switch(word[i]) {
 			case "Snl_Start" : 
 				if(snl_start(line)) {
-					resultat = line + " :   Début du programme \n ";
+					resultat = line + " :   debut de programe \n ";
 				}
 				else {
 					nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique \n";
+					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
 			case "Snl_Close" : 
 				if(snl_close(line)) {
-					resultat = line + " :   Fin du programme \n ";
+					resultat = line + " :   fin de programe \n ";
 				}
 				else {nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique \n";
+					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
 			case "Snl_Int" :
 				if(snl_int(line)) {
-					resultat = line + " :   Déclaration d'un(d') nombre (s) entier(s) ";
+					resultat = line + " :   declaration d'un entier(s) ";
 				}
 				else {nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique \n";
+					resultat = line + " :  erreur syntaxique ";
 				}
 				break;
 				
 				
 			case "Snl_Real" : 
 				if(snl_real(line)) {
-					resultat = line + " :   Déclaration d'un(de) nombre(s) reel(s) ";
+					resultat = line + " :   declaration d'un reel(s) ";
 				}
 				else {nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique \n";
+					resultat = line + " :  erreur syntaxique ";
 				}
 				break;
 			case "Snl_Put" : 
 				if(put(line)) {
-					resultat = line +" :  Affichage ( équivalent de printf ) \n" ;
+					resultat = line +" :  affichage d'un message a l'�cran \n" ;
 				}
 				else {nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique \n";
+					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
 		
@@ -86,26 +86,26 @@ public class Syntaxique {
 			
 			case "Set" : 
 				if(set(line)) {
-					resultat = line +" :  Mot réservé  pour Affection d'une valeur a une variable \n" ;
+					resultat = line +" :  mot reserver pour affection a d'une valeur a une variable \n" ;
 				}
 				else {nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique ";
+					resultat = line + " :  erreur syntaxique ";
 				}
 				break;
 			case "Get" : 
 				if(get(line)) {
-					resultat = line +" :  Mot reservé pour affection a d'une variable a une variable \n" ;
+					resultat = line +" :  mot reserver pour affection a d'une variable a une variable \n" ;
 				}
 				else {nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique ";
+					resultat = line + " :  erreur syntaxique ";
 				}
 				break;
 			case "If" : 
 				if(condition(line)) {
-					resultat = line +" :  Condition \n" ;
+					resultat = line +" :  condition \n" ;
 				}
 				else {nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique \n";
+					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
 			case "If%" : 
@@ -113,37 +113,37 @@ public class Syntaxique {
 					resultat = line +" :  condition \n" ;
 				}
 				else {nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique \n";
+					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
 			
 			case "Else" : 
 				if(else_condition(line)) {
-					resultat = line + " :   Sinon \n ";
+					resultat = line + " :   sinon \n ";
 				}
 				else {nbr_erreur++;
-					resultat = line + " :   Erreur Syntaxique \n";
+					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
 			case "Start" : 
 				if(start(line)) {
-					resultat = line + " :   Debut d'un block  \n ";
+					resultat = line + " :   debut d'un block  \n ";
 				}
 				else {nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique \n";
+					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
 			case "Finish" : 
 				if(finish(line)) {
-					resultat = line + " :   Fin d'un Block \n ";
+					resultat = line + " :   fin d'un block \n ";
 				}
 				else {nbr_erreur++;
-					resultat = line + " :  Erreur Syntaxique \n";
+					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;	
 				default : 
 					nbr_erreur++;
-					resultat =line  +  " :    Erreur Syntaxique \n" ;
+					resultat =line  +  " :   erruer syntaxique \n" ;
 					break;
 			}
 			

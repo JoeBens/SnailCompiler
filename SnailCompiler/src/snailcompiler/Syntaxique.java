@@ -1,25 +1,34 @@
 package snailcompiler;
-
-
 public class Syntaxique {
 
+	private static int nbr_erreur = 0;
+	
 	public Syntaxique() {
 		
 	}
 	
 	public String analyse_syn( String code)
 	{
-	
+		int i=0;
 		String resultat = " ";
 		String[] line = devide(code);
-		for(int i =0;i<line.length;i++) 
-			resultat =  resultat +"\n"+ keyWord(line[i]);
-		
+		while(line[i].isEmpty()) {
+			i++;
+		}
+		int k = line.length;
+		if(line[line.length-1].trim().isEmpty()) {
+			k--;
+		}
+		for(int j =i;j<k;j++) {
+			if(!line[j].trim().isEmpty())
+			resultat =  resultat +"\n"+ keyWord(line[j]);
+		}
 		return resultat;
 	}
 	
 	public String keyWord(String line) {
 		int i = 0;
+		int nbr_erreur = 0;
 		String resultat = " ";
 		String[] word = line.split("\\s+");
 		if ( word[i].isEmpty()) {
@@ -32,6 +41,7 @@ public class Syntaxique {
 					resultat = line + " :   debut de programe \n ";
 				}
 				else {
+					nbr_erreur++;
 					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
@@ -39,7 +49,7 @@ public class Syntaxique {
 				if(snl_close(line)) {
 					resultat = line + " :   fin de programe \n ";
 				}
-				else {
+				else {nbr_erreur++;
 					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
@@ -47,7 +57,7 @@ public class Syntaxique {
 				if(snl_int(line)) {
 					resultat = line + " :   declaration d'un entier(s) ";
 				}
-				else {
+				else {nbr_erreur++;
 					resultat = line + " :  erreur syntaxique ";
 				}
 				break;
@@ -57,15 +67,15 @@ public class Syntaxique {
 				if(snl_real(line)) {
 					resultat = line + " :   declaration d'un reel(s) ";
 				}
-				else {
+				else {nbr_erreur++;
 					resultat = line + " :  erreur syntaxique ";
 				}
 				break;
 			case "Snl_Put" : 
 				if(put(line)) {
-					resultat = line +" :  affichage d'un message a l'écran \n" ;
+					resultat = line +" :  affichage d'un message a l'�cran \n" ;
 				}
-				else {
+				else {nbr_erreur++;
 					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
@@ -78,7 +88,7 @@ public class Syntaxique {
 				if(set(line)) {
 					resultat = line +" :  mot reserver pour affection a d'une valeur a une variable \n" ;
 				}
-				else {
+				else {nbr_erreur++;
 					resultat = line + " :  erreur syntaxique ";
 				}
 				break;
@@ -86,7 +96,7 @@ public class Syntaxique {
 				if(get(line)) {
 					resultat = line +" :  mot reserver pour affection a d'une variable a une variable \n" ;
 				}
-				else {
+				else {nbr_erreur++;
 					resultat = line + " :  erreur syntaxique ";
 				}
 				break;
@@ -94,7 +104,15 @@ public class Syntaxique {
 				if(condition(line)) {
 					resultat = line +" :  condition \n" ;
 				}
-				else {
+				else {nbr_erreur++;
+					resultat = line + " :  erreur syntaxique \n";
+				}
+				break;
+			case "If%" : 
+				if(condition(line)) {
+					resultat = line +" :  condition \n" ;
+				}
+				else {nbr_erreur++;
 					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
@@ -103,7 +121,7 @@ public class Syntaxique {
 				if(else_condition(line)) {
 					resultat = line + " :   sinon \n ";
 				}
-				else {
+				else {nbr_erreur++;
 					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
@@ -111,7 +129,7 @@ public class Syntaxique {
 				if(start(line)) {
 					resultat = line + " :   debut d'un block  \n ";
 				}
-				else {
+				else {nbr_erreur++;
 					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;
@@ -119,22 +137,20 @@ public class Syntaxique {
 				if(finish(line)) {
 					resultat = line + " :   fin d'un block \n ";
 				}
-				else {
+				else {nbr_erreur++;
 					resultat = line + " :  erreur syntaxique \n";
 				}
 				break;	
 				default : 
+					nbr_erreur++;
 					resultat =line  +  " :   erruer syntaxique \n" ;
 					break;
 			}
 			
-		
+			
 		return resultat;
 				
 	}
-	
-	
-	
 	
 	 public static boolean snl_int(String line) {
 		  int nbr = 1;
@@ -177,14 +193,11 @@ public class Syntaxique {
 											
 										else {
 										return false;}}
-									
-									
-									
+		
 									else if (line.charAt(i)==',') {
 										i++;
 										nbr++;	}
-									
-									
+
 									
 									else if (Character.isWhitespace(line.charAt(i))) {
 										boolean b = true;
@@ -205,7 +218,6 @@ public class Syntaxique {
 												nbr++;}
 												b=false;}
 											
-											
 											else if((Character.isLetter(line.charAt(i))) || (Character.isUpperCase(line.charAt(i)))) {
 												if(nbr==2) {
 													nbr = 1;}
@@ -213,7 +225,6 @@ public class Syntaxique {
 													return false;}
 												i++;
 												b = false;}
-											
 											
 											else if (line.charAt(i) == '%' &&  line.charAt(i+1) == '.') {
 												if(nbr==2) {
@@ -653,8 +664,8 @@ public class Syntaxique {
 	 }
 	 
 	 public static boolean condition(String line) {
-		  int nbr = 0;
-		int op = 0;
+		  	int nbr = 0;
+		  	int op = 0;
 			boolean bool = true;
 			boolean a = true;
 			boolean boucle = true;
@@ -721,6 +732,48 @@ public class Syntaxique {
 											return false;
 										}
 										}
+									 else if (line.charAt(i)=='>'){
+											if (op>=1) {
+												return false;
+											}
+											i++;
+											op++;
+											if (line.charAt(i)=='=') {	
+												i++; b=false;
+											}
+											else  if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
+												b =false; 
+											}
+											else if (Character.isWhitespace(line.charAt(i))) {
+												b = false; 
+											}
+											else {
+												return false;
+											}
+											}
+									 else if (line.charAt(i)=='='){
+											if (op>=1) {
+												return false;
+											}
+											if (line.charAt(i+1)!='=') {	
+												return false;
+											}
+											i++;
+											op++;
+											if (line.charAt(i)=='=') {	
+												i++; b=false;
+											}
+											
+											else if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
+												b =false; 
+											}
+											else if (Character.isWhitespace(line.charAt(i))) {
+												b = false; 
+											}
+											else {
+												return false;
+											}
+											}
 								  //---------------------------------------------------------------------------------------------------------------------------------------
 									else	if(line.charAt(i)=='%') {
 										if (nbr ==0) {
@@ -759,7 +812,7 @@ public class Syntaxique {
 													i++;
 													op++;
 													if (line.charAt(i)=='=') {	
-														i++; b=false;
+														i++; b=false;c=false;//**********************************************************************************************************************************************************
 													}
 													else if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
 														b =false; c=false;
@@ -770,10 +823,50 @@ public class Syntaxique {
 													else {
 														System.out.println("the erro is here");
 														return false;
+													}}
+											 else if (line.charAt(i)=='>'){
+													if (op>=1) {
+														return false;
+													}
+													i++;
+													op++;
+													if (line.charAt(i)=='=') {	
+														i++; b=false;c=false;
+													}
+													else  if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
+														b =false; c=false;
+													}
+													else if (Character.isWhitespace(line.charAt(i))) {
+														b = false; c=false;
+													}
+													else {
+														return false;
+													}
+													}
+											 else if (line.charAt(i)=='='){
+													if (op>=1) {
+														return false;
+													}
+													if (line.charAt(i+1)!='=') {	
+														return false;
+													}
+													i++;
+													op++;
+													if (line.charAt(i)=='=') {	
+														i++; b=false;c=false;
+													}
+													
+													else if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
+														b =false; c=false;
+													}
+													else if (Character.isWhitespace(line.charAt(i))) {
+														b = false; c=false;
+													}
+													else {
+														return false;
 													}
 													}
 											 //------------------------------------------
-											 
 											 else	if(line.charAt(i)=='%') {
 											if (nbr ==0) {
 												return false;
@@ -792,23 +885,14 @@ public class Syntaxique {
 											}
 											else {
 												return false;
-											}
-										}
+											}}
 											 //-------------------------------------------------------
 										else {
 											return false;
-										}
-										}
-										//------------------------------
-										
-										
-								  }
+										}}}
 									else {
 										return false;
-									}
-							}
-							
-						}
+									}}}
 						 //---------------------------------------------------------if it is a digit and not a t------------------------
 						 
 						 
@@ -839,64 +923,67 @@ public class Syntaxique {
 								
 							}
 								 //-------------------------------------------------------------------------------------------------------------------------------------
-									else if (line.charAt(i)=='<'){
-										if (op>=1) {
-											return false;
-										}
-										i++;
-										op++;
-										if (line.charAt(i)=='=') {	
-											i++; b=false;
-										}
-										else if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
-											b =false;
-										}
-										else if (Character.isWhitespace(line.charAt(i))) {
-											b = false;
-										}
-										else {
-											return false;
-										}
-										}
-									 else if (line.charAt(i)=='>'){
-											if (op>=1) {
-												return false;
-											}
-											i++;
-											op++;
-											if (line.charAt(i)=='=') {	
-												i++; b=false;
-											}
-											else  if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
-												b =false; c=false;
-											}
-											else if (Character.isWhitespace(line.charAt(i))) {
-												b = false; c=false;
-											}
-											else {
-												return false;
-											}
-											}
-									 else if (line.charAt(i)=='='){
-											if (op>=1) {
-												return false;
-											}
-											i++;
-											op++;
-											if (line.charAt(i)=='=') {	
-												i++; b=false;
-											}
-											
-											else if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
-												b =false; c=false;
-											}
-											else if (Character.isWhitespace(line.charAt(i))) {
-												b = false; c=false;
-											}
-											else {
-												return false;
-											}
-											}
+							else if (line.charAt(i)=='<'){
+								if (op>=1) {
+									return false;
+								}
+								i++;
+								op++;
+								if (line.charAt(i)=='=') {	
+									i++; b=false;
+								}
+								else if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
+									b =false;
+								}
+								else if (Character.isWhitespace(line.charAt(i))) {
+									b = false;
+								}
+								else {
+									return false;
+								}
+								}
+							 else if (line.charAt(i)=='>'){
+									if (op>=1) {
+										return false;
+									}
+									i++;
+									op++;
+									if (line.charAt(i)=='=') {	
+										i++; b=false;
+									}
+									else  if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
+										b =false; 
+									}
+									else if (Character.isWhitespace(line.charAt(i))) {
+										b = false; 
+									}
+									else {
+										return false;
+									}
+									}
+							 else if (line.charAt(i)=='='){
+									if (op>=1) {
+										return false;
+									}
+									if (line.charAt(i+1)!='=') {	
+										return false;
+									}
+									i++;
+									op++;
+									if (line.charAt(i)=='=') {	
+										i++; b=false;
+									}
+									
+									else if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
+										b =false; 
+									}
+									else if (Character.isWhitespace(line.charAt(i))) {
+										b = false; 
+									}
+									else {
+										return false;
+									}
+									}
 								  //---------------------------------------------------------------------------------------------------------------------------------------
 									else	if(line.charAt(i)=='%') {
 										if (nbr ==0) {
@@ -925,7 +1012,7 @@ public class Syntaxique {
 													return false; }
 											 //------------------------------------
 											 else  if (Character.isWhitespace(line.charAt(i))) {i++;}
-											 
+											 //MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 											 //----------------------------------------------------------
 											 
 											 else if (line.charAt(i)=='<'){
@@ -935,7 +1022,7 @@ public class Syntaxique {
 													i++;
 													op++;
 													if (line.charAt(i)=='=') {	
-														i++; b=false;
+														i++; b=false;c=false;//**********************************************************************************************************************************************************
 													}
 													else if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
 														b =false; c=false;
@@ -944,9 +1031,9 @@ public class Syntaxique {
 														b = false; c=false;
 													}
 													else {
+														System.out.println("the erro is here");
 														return false;
-													}
-													}
+													}}
 											 else if (line.charAt(i)=='>'){
 													if (op>=1) {
 														return false;
@@ -954,7 +1041,7 @@ public class Syntaxique {
 													i++;
 													op++;
 													if (line.charAt(i)=='=') {	
-														i++; b=false;
+														i++; b=false;c=false;
 													}
 													else  if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
 														b =false; c=false;
@@ -970,10 +1057,13 @@ public class Syntaxique {
 													if (op>=1) {
 														return false;
 													}
+													if (line.charAt(i+1)!='=') {	
+														return false;
+													}
 													i++;
 													op++;
 													if (line.charAt(i)=='=') {	
-														i++; b=false;
+														i++; b=false;c=false;
 													}
 													
 													else if((Character.isDigit(line.charAt(i))) || (Character.isLetter(line.charAt(i))) || Character.isUpperCase(line.charAt(i))) {
@@ -987,7 +1077,6 @@ public class Syntaxique {
 													}
 													}
 											 //------------------------------------------
-											 
 											 else	if(line.charAt(i)=='%') {
 											if (nbr ==0) {
 												return false;
@@ -1006,54 +1095,25 @@ public class Syntaxique {
 											}
 											else {
 												return false;
-											}
-										}
+											}}
 											 //-------------------------------------------------------
 										else {
 											return false;
-										}
-										}
-										//------------------------------
-										
-										
+										}}
+										//------------------------------	
 								  }
 									else {
 										return false;
-									}
-							}
-							
-						
-							
-							
-						}
-						
+									}}}	
 						else {
-							return false;}
-						 
-						 
-					}
-					
-					}
-					
-					
-				
-					
+							return false;}}}		
 					else {
 						return false;
 					}
-					
-					
-					
 				}while(boucle);
-				}
-			
-			}
-			
-			
-			
+				}}
 			return bool;
-	 
-	 }
+}
 
 	 public static boolean put(String line) {
 		  int nbr = 0;
@@ -1424,6 +1484,11 @@ public class Syntaxique {
 	 
 	 }
 	 
+	 public static int erreur() {
+		 
+		return nbr_erreur;
+		 
+	 }
 	 public String[] devide(String code)
 	{	
 		
@@ -1432,6 +1497,12 @@ public class Syntaxique {
 		
 	}
 
-
-
 }
+
+
+
+
+
+
+
+

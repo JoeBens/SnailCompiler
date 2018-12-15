@@ -1,5 +1,5 @@
-package snailcompiler;
 
+package snailcompiler;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class Semantique {
 	public String analyse_sem() throws IOException {
 		int i =0, nbr_if=0, nbr_start= 0;int j =0;
 		if(!start_close())	return "error has been detected in the code snl_start and close";
-		String resultat ="anlyse sémanique terminer ! aucune erreur detecter";
+		String resultat ="anlyse s�manique terminer ! aucune erreur detecter";
 		if(nbr_erreur>0) {
 			return "error has been detected in the code";}
 		

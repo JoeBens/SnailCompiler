@@ -1,5 +1,3 @@
-package snailcompiler;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,8 +9,6 @@ import java.io.PrintWriter;
 
 public class Traduction {
 
-    
-        //Change le repertoire du fichier
 	File fichier = new File("C:\\Users\\Joe\\Desktop\\Test.java") ; 
 	private String code;
 	private static String consoleOutput = "";

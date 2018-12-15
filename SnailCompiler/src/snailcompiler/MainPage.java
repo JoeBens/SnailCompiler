@@ -7,6 +7,7 @@ package snailcompiler;
 
 
 
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,11 +27,9 @@ import javax.swing.JFileChooser;
 public class MainPage extends javax.swing.JFrame {
         JFileChooser fc;
         File test;
-        String code;
         public ArrayList<String> lignes = new ArrayList();
-        Syntaxique syn=new Syntaxique();
-        Semantique sem;
-        lexical lex =new lexical();
+        private int nbr_erreur;
+	private String code;
         
     /**
      * Creates new form MainPage
@@ -189,51 +188,45 @@ public class MainPage extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
         
-        /*jTextArea1.setText(syn.analyse_syn(code));*/
-        jTextArea1.setText(code);
+        	Syntaxique syntaxique = new Syntaxique();
+		String analyse = (String) syntaxique.analyse_syn(code);
+		nbr_erreur = syntaxique.erreur();
+		jTextArea1.setText(analyse);
+        
     }//GEN-LAST:event_jButton8ActionPerformed
                     //LOAD FILE
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-      
-      int returnVal = fc.showOpenDialog(this);
-      if (returnVal == JFileChooser.APPROVE_OPTION) {
-        test = fc.getSelectedFile();
-        try {
-     
-            FileReader fileReader = new FileReader(test);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            StringBuffer stringBuffer = new StringBuffer();
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuffer.append(line);
-                stringBuffer.append("\n");
-                lignes.add(line);//list of lines
-            }
-            fileReader.close();
-            code=stringBuffer.toString();//the code
-        } catch (IOException e) {
-        }
-      } else {
-        System.out.println("Operation is CANCELLED :(");
-      }
-      sem=new Semantique(0,this.code);
+                FileChooser filechooser = new FileChooser();
+				try {
+					filechooser.PickMe();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				code = filechooser.readFile();
+				jTextArea1.setText(code);
     }//GEN-LAST:event_jButton2ActionPerformed
                     //LEXICALE
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-             jTextArea1.setText(lex.resultat(code));
+            Lexical lexical = new Lexical();
+            String analyse = (String) lexical.analyse_lex(code);
+            jTextArea1.setText(analyse);
+             
     }//GEN-LAST:event_jButton7ActionPerformed
                    //SEMANTIQUE
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String xd = null;    
-        try {
-                // TODO add your handling code here:
-                xd = sem.analyse_sem();
-            } catch (IOException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        jTextArea1.setText(xd);
+                            Semantique semantique = new Semantique(nbr_erreur,code);
+				String resultat = null;
+				try {
+					resultat = (String)semantique.analyse_sem();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				jTextArea1.setText(resultat);
         
     }//GEN-LAST:event_jButton3ActionPerformed
     public ArrayList<String> getList(){ //  renvoi les lignes de la liste

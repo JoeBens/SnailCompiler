@@ -10,6 +10,8 @@ public class Semantique {
 	private static ArrayList<String> int_var;
 	private static ArrayList<String> real_var;
 	private static ArrayList<String> set_var;
+        String x;
+        Traduction traduction = null;
 
 	public Semantique (int nbr_erreur, String code) {
 		Semantique.code = code;
@@ -22,11 +24,11 @@ public class Semantique {
 	public String analyse_sem() throws IOException {
 		int i =0, nbr_if=0, nbr_start= 0;int j =0;
 		if(!start_close())	return "error has been detected in the code snl_start and close";
-		String resultat ="anlyse s�manique terminer ! aucune erreur detecter";
+		String resultat ="anlyse sémantique terminer ! aucune erreur detecter";
 		if(nbr_erreur>0) {
 			return "error has been detected in the code";}
 		
-		String[] line = devide(code);
+		String[] line = divide(code);
 		
 		for(i=0; i<line.length;i++) {
 			if(!line[j].trim().isEmpty()) {
@@ -104,12 +106,16 @@ public class Semantique {
 		if(nbr_erreur>0) return "error has been found : " + nbr_erreur;
 		else {
 			
-			Traduction traduction = new Traduction(code);
+			traduction = new Traduction(code);
 			traduction.compile();
+                        
 		return resultat;
 		}
 	}
 	
+        public String getCode(){
+            return traduction.getCode();
+        }
 	
 	public static boolean condition(String line) {
 		boolean bool = true;
@@ -261,7 +267,7 @@ public class Semantique {
 	public static boolean start_close() {
 		int i =0;
 		boolean bool = true;
-		String[] line = devide(code);
+		String[] line = divide(code);
 		// chek the snl_start
 		 while(line[i].trim().isEmpty()){
 			i++;
@@ -283,7 +289,7 @@ public class Semantique {
 		return bool;
 		
 	}
-	public static String[] devide(String code)
+	public static String[] divide(String code)
 	{	
 		
 		String[] line = code.split("(\\r\\n)+");

@@ -188,7 +188,7 @@ public class Lexical {
 			break;
 			
 		case "Set" : 
-			resultat = word[i] + " :   Mot réservé pour affection a d'une valeur a une variable \n" +	lex(line);
+			resultat = word[i] + " :   Mot réservé pour affectation a d'une valeur a une variable \n" +	lex(line);
 			break;
 		case "Get" : 
 			resultat = word[i] + "     Mot réservé pour affectation d'une valeur entre variable \n"+	lex(line);
